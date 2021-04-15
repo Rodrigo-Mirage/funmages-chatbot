@@ -67,10 +67,8 @@ async function start() {
     tmiClient.connect();
 
     tmiClient.on('message', (channel, tags, message, self) => {
-        if (channel == "#mirageiw") {
-            if (message == "!fm") { 
-                tmiClient.say(channel, createMulti());
-            }
+        if (message == "!fm") { 
+            tmiClient.say(channel, createMulti());
         }
     });
 
