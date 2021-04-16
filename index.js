@@ -78,6 +78,7 @@ async function start() {
         if (onChannels.indexOf(channel) > 0) {
             onChannels.splice(onChannels.indexOf(channel), 1);
         }
+        console.log(`${channel} is online!`);
 
         onChannels.push(data.name);
     });
