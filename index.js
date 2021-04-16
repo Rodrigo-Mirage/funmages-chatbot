@@ -13,7 +13,7 @@ async function start() {
         "ZorakX",
         "Canal_Rzero",
         "brunoantonucci",
-        "Dany_Leone22",
+        "dani_leone22",
         "ChrisBunny99",
         "DaveBey",
         "GMStation",
