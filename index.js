@@ -40,7 +40,6 @@ async function start() {
         cloneList.push(channel);
         await client.getStream(channel).then(data => {
             if (data) {
-                console.log(data);
                 console.log(`${channel} is online!`);
                 if (onChannels.indexOf(channel) > 0) {
                     onChannels.splice(onChannels.indexOf(channel), 1);
