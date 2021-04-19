@@ -104,17 +104,17 @@ const createMulti = () => {
 }
 
 console.log("starting");
-const server = http.createServer((req, res) => {
-  //start();
-  //console.log("Re-starting");
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end(onChannels);
-});
 
-var server_port = process.env.YOUR_PORT || process.env.PORT || 80;
+const express = require('express')
+const app = express()
+const port = process.env.YOUR_PORT || process.env.PORT || 80;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
-server.listen(server_port, server_host, function() {
-start();
-    console.log('Listening on port %d', server_port);
-});
+
+app.get('/', (req, res) => {
+  res.send(onChannels)
+})
+
+app.listen(port,server_host, () => {
+    start();
+  console.log(`Example app listening at http://localhost:${port}`)
+})
