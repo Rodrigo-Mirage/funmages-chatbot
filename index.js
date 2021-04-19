@@ -114,6 +114,12 @@ app.get('/', (req, res) => {
   res.send(onChannels)
 })
 
+app.get('/reset', (req, res) => {
+    start();
+    console.log("reset");
+    res.redirect('/');
+})
+
 app.listen(port,server_host, () => {
     start();
   console.log(`Example app listening at http://localhost:${port}`)
