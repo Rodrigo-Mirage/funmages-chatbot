@@ -23,11 +23,10 @@ async function start() {
         "hortaracing"
     ];
 
-
-
     var cloneList = [];
 
-    
+    onChannels = [];
+
     const options = {
         channels: cloneList,
         client_id: process.env.BOT_CLIENT,
@@ -48,9 +47,6 @@ async function start() {
             }
         });
     });
-
-
-
 
 
     const tmiClient = new tmi.Client({
@@ -108,15 +104,17 @@ const createMulti = () => {
 }
 
 console.log("starting");
-start();
 const server = http.createServer((req, res) => {
+  start();
+  console.log("Re-starting");
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+  res.end(onChannels);
 });
 
 var server_port = process.env.YOUR_PORT || process.env.PORT || 80;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
 server.listen(server_port, server_host, function() {
+start();
     console.log('Listening on port %d', server_port);
 });
