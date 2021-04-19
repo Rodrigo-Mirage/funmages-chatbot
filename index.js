@@ -105,8 +105,8 @@ const createMulti = () => {
 
 console.log("starting");
 const server = http.createServer((req, res) => {
-  start();
-  console.log("Re-starting");
+  //start();
+  //console.log("Re-starting");
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
   res.end(onChannels);
