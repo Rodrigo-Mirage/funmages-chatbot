@@ -71,7 +71,7 @@ async function start() {
             reconnect: true
         },
         identity: {
-            username: 'bot_void_ling',
+            username: process.env.BOT_LOGIN,
             password: process.env.BOT_OAUTH
         },
         channels: channelList
