@@ -49,6 +49,22 @@ async function start() {
     });
 
 
+    client.on('live', (data) => {
+        if (onChannels.indexOf(data.name) > 0) {
+            onChannels.splice(onChannels.indexOf(data.name), 1);
+        }
+        console.log(`${data.name} is online!`);
+
+        onChannels.push(data.name);
+    });
+
+    client.on('unlive', (data) => {
+        if (onChannels.indexOf(data.name) > 0) {
+            onChannels.splice(onChannels.indexOf(data.name), 1);
+        }
+    });
+
+
     const tmiClient = new tmi.Client({
         connection: {
             secure: true,
@@ -66,22 +82,6 @@ async function start() {
     tmiClient.on('message', (channel, tags, message, self) => {
         if (message == "!fm") { 
             tmiClient.say(channel, createMulti());
-        }
-    });
-
-
-    client.on('live', (data) => {
-        if (onChannels.indexOf(channel) > 0) {
-            onChannels.splice(onChannels.indexOf(channel), 1);
-        }
-        console.log(`${channel} is online!`);
-
-        onChannels.push(data.name);
-    });
-
-    client.on('unlive', (data) => {
-        if (onChannels.indexOf(channel) > 0) {
-            onChannels.splice(onChannels.indexOf(channel), 1);
         }
     });
 
