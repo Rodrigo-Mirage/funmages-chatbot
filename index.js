@@ -28,7 +28,7 @@ async function start() {
     onChannels = [];
 
     const options = {
-        channels: cloneList,
+        channels: channelList,
         client_id: process.env.BOT_CLIENT,
         client_secret: process.env.BOT_SECRET,
         interval: 15
