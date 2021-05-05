@@ -16,7 +16,7 @@ async function start() {
         "brunoantonucci",
         "dani_leone22",
         "ChrisBunny99",
-        "DaveBey",
+        "davebey",
         "GMStation",
         "AnderFanta",
         "jeffreyhaiduk",
