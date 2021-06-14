@@ -74,6 +74,7 @@ async function start() {
     });
     tmiClient.connect().catch(console.error);;
     tmiClient.on('message', (channel, tags, message, self) => {
+        console.log(channel, message)
         if (message == "!fm") { 
             try{
                 tmiClient.say(channel, createMulti());
