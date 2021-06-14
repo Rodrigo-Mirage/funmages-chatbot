@@ -107,7 +107,7 @@ async function start() {
 
     setTimeout(()=>{
         adBreak(tmiClient);
-    },5000);
+    },300000);
 
 }
 
@@ -163,7 +163,7 @@ const adBreak = (tmiClient) =>{
         while(channelList[random].replace("#","") == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
-        messBase2 = "!sh " + (channelList[random].replace("#","")) + " :" + adList[(channelList[random].replace("#",""))];
+        messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
         
         console.log("ad: " + channelList[random]);
 
