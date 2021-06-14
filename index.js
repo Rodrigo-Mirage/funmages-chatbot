@@ -75,7 +75,11 @@ async function start() {
     tmiClient.connect().catch(console.error);;
     tmiClient.on('message', (channel, tags, message, self) => {
         if (message == "!fm") { 
-            tmiClient.say(channel, createMulti());
+            try{
+                tmiClient.say(channel, createMulti());
+            }catch(e){
+                console.log(channel, message)
+            }
         }
     });
     console.log("Bot online");
