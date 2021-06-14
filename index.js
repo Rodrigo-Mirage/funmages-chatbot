@@ -42,7 +42,7 @@ async function start() {
                 if (onChannels.indexOf(channel) > 0) {
                     onChannels.splice(onChannels.indexOf(channel), 1);
                 }
-                onChannels.push(channel);
+                onChannels.push(channel.toLowerCase());
             }
         });
     });
@@ -51,12 +51,13 @@ async function start() {
             onChannels.splice(onChannels.indexOf(data.name), 1);
         }
         console.log(`${data.name} is online!`);
-        onChannels.push(data.name);
+        onChannels.push(data.name.toLowerCase());
     });
     client.on('unlive', (data) => {
         if (onChannels.indexOf(data.name) > 0) {
             onChannels.splice(onChannels.indexOf(data.name), 1);
         }
+        console.log(`${data.name} is offline!`);
     });
     const tmiClient = new tmi.Client({
         connection: {
@@ -87,7 +88,13 @@ const createMulti = () => {
         return base;
     } else {
         var base = "StinkyCheese No momento a Fun Mages não tem streamers online o suficiente para criar um multi CrreamAwk";
+        if (onChannels.length == 1) {
+            onChannels.forEach(channel => {
+                base += " MAAS " + channel + " está online agora em: https://www.twitch.tv/" + channel;
+            });
+        }
         return base;
+        
     }
 }
 
