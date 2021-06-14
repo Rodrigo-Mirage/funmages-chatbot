@@ -6,25 +6,46 @@ const http = require('http');
 
 var onChannels = [];
 
+var channelList = [    
+    "mirageiw",
+    "verinha_hime",
+    "praiadeconcreto",
+    "Zorak_X",
+    "canal_rzero",
+    "brunoantonucci",
+    "dani_leone22",
+    "chrisbunny99",
+    "davebey",
+    "GMStation",
+    "AnderFanta",
+    "jeffreyhaiduk",
+    "hortaracing",
+    "pha_el",
+    "juneamamiya",
+    "felipeconrad"
+];
+
+var adList = {
+    "mirageiw": "Multiplayers online, speedrun, competitivos, e diversos",
+    "verinha_hime": "Jogos casuais e clássicos de simulação",
+    "praiadeconcreto": "Artes, cosplay e jogos diversos",
+    "Zorak_X": "Retrogames, indie e jogos de ação",
+    "canal_rzero": "Jogos de ação, RPGs táticos e diversos",
+    "brunoantonucci": "Fotografia e jogos de ação",
+    "dani_leone22": "Multiplayers online e RPGs",
+    "chrisbunny99": "Artes e retrogames",
+    "davebey": "Estratégia, RPGs táticos e pôquer",
+    "GMStation": "Retrogames, RPG, storytelling e cosplay",
+    "AnderFanta": "Jogos de ação, aventura e RPG (FANTAsia!)",
+    "jeffreyhaiduk": "Artes, bate-papo e RPGs",
+    "hortaracing": "Simulador de corridas e retrogames",
+    "pha_el": "Multiplayers online e jogos de ação",
+    "juneamamiya": "Jogos de ação, lego e mitologia",
+    "felipeconrad": "Quadrinhos, cinema e jogos diversos"
+}
+
+
 async function start() {
-    var channelList = [    
-        "mirageiw",
-        "verinha_hime",
-        "praiadeconcreto",
-        "Zorak_X",
-        "canal_rzero",
-        "brunoantonucci",
-        "dani_leone22",
-        "chrisbunny99",
-        "davebey",
-        "GMStation",
-        "AnderFanta",
-        "jeffreyhaiduk",
-        "hortaracing",
-        "pha_el",
-        "juneamamiya",
-        "felipeconrad"
-    ];
     var cloneList = [];
     onChannels = [];
     const options = {
@@ -74,7 +95,6 @@ async function start() {
     });
     tmiClient.connect().catch(console.error);;
     tmiClient.on('message', (channel, tags, message, self) => {
-        console.log(channel, message)
         if (message == "!fm") { 
             try{
                 tmiClient.say(channel, createMulti());
@@ -84,6 +104,7 @@ async function start() {
         }
     });
     console.log("Bot online");
+    adBreak();
 }
 
 const createMulti = () => {
@@ -121,3 +142,33 @@ app.listen(port,server_host, () => {
     start();
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
+
+const adBreak = (tmiClient) =>{
+    
+    onChannels.forEach(channel => {
+        var messBase = "";
+        var messBase2 = "";
+
+        messBase = "A FUN MAGES é uma equipe de streamers com o objetivo de trazer conteúdos variados e de qualidade para a Twitch. Nosso time é composto por vários canais, falando sobre tudo um pouco: desde arte, quadrinhos e retrogames até os jogos mais atuais e tendências de cultura pop. Conheça um dos nossos parceiros a seguir:";
+        
+        var random = Math.floor(Math.random() * (channelList.length - 1 ));
+        while(channelList[random] == channel){
+            random = Math.floor(Math.random() * (channelList.length - 1 ));
+            messBase2 = "http://twitch.tv/" + channel + " " + adList[channel];
+        }
+
+        tmiClient.say(channel,messBase);
+        tmiClient.say(channel,messBase2);
+
+    });
+
+    setTimeout(()=>{
+        adBreak();
+    },1200000)
+}
+
+ 
+
+
+
