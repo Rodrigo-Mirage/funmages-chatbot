@@ -167,7 +167,12 @@ const adBreak = (tmiClient) =>{
         
         console.log("ad: " + channelList[random]);
 
-        tmiClient.say(channel,messBase).then(tmiClient.say(channel,messBase2));
+        tmiClient.say(channel,messBase);
+        
+        setTimeout(()=>{
+            console.log(messBase2);
+            tmiClient.say(channel,messBase2);
+        },1000);
 
     });
 
