@@ -163,7 +163,7 @@ const adBreak = (tmiClient) =>{
         while(channelList[random] == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
-        messBase2 = "!sh " + channelList[random] + " : " + adList[channelList[random]];
+        messBase2 = "!sh " + (channelList[random].replace("#","")) + " :" + adList[(channelList[random].replace("#",""))];
         
         console.log("ad: " + channelList[random]);
 
