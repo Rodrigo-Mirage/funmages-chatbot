@@ -162,13 +162,12 @@ const adBreak = (tmiClient) =>{
 
         while(channelList[random] == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
-            messBase2 = "http://twitch.tv/" + channelList[random] + " " + adList[channelList[random]];
+            messBase2 = "!sh " + channelList[random] + " : " + adList[channelList[random]];
         }
         
         console.log("ad: " + channelList[random]);
 
-        tmiClient.say(channel,messBase);
-        tmiClient.say(channel,messBase2);
+        tmiClient.say(channel,messBase).then(tmiClient.say(channel,messBase2));
 
     });
 
