@@ -145,18 +145,23 @@ app.listen(port,server_host, () => {
 
 
 const adBreak = (tmiClient) =>{
-    
+    console.log("HORA DO AD");
     onChannels.forEach(channel => {
+        
+        console.log("ad p/ " + channel);
         var messBase = "";
         var messBase2 = "";
 
         messBase = "A FUN MAGES é uma equipe de streamers com o objetivo de trazer conteúdos variados e de qualidade para a Twitch. Nosso time é composto por vários canais, falando sobre tudo um pouco: desde arte, quadrinhos e retrogames até os jogos mais atuais e tendências de cultura pop. Conheça um dos nossos parceiros a seguir:";
         
         var random = Math.floor(Math.random() * (channelList.length - 1 ));
+        
         while(channelList[random] == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
-            messBase2 = "http://twitch.tv/" + channel + " " + adList[channel];
+            messBase2 = "http://twitch.tv/" + channelList[random] + " " + adList[channelList[random]];
         }
+        
+        console.log("ad: " + channelList[random]);
 
         tmiClient.say(channel,messBase);
         tmiClient.say(channel,messBase2);
