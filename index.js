@@ -104,7 +104,11 @@ async function start() {
         }
     });
     console.log("Bot online");
-    adBreak(tmiClient);
+
+    setTimeout(()=>{
+        adBreak(tmiClient);
+    },5000);
+
 }
 
 const createMulti = () => {
@@ -169,7 +173,7 @@ const adBreak = (tmiClient) =>{
     });
 
     setTimeout(()=>{
-        adBreak();
+        adBreak(tmiClient);
     },1200000)
 }
 
