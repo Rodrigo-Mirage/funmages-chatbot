@@ -160,7 +160,7 @@ const adBreak = (tmiClient) =>{
         
         var random = Math.floor(Math.random() * (channelList.length - 1 ));
 
-        while(channelList[random] == channel){
+        while(channelList[random].replace("#","") == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
         messBase2 = "!sh " + (channelList[random].replace("#","")) + " :" + adList[(channelList[random].replace("#",""))];
@@ -170,9 +170,8 @@ const adBreak = (tmiClient) =>{
         tmiClient.say(channel,messBase);
         
         setTimeout(()=>{
-            console.log(messBase2);
             tmiClient.say(channel,messBase2);
-        },1000);
+        },3000);
 
     });
 
