@@ -104,7 +104,7 @@ async function start() {
         }
     });
     console.log("Bot online");
-    adBreak();
+    adBreak(tmiClient);
 }
 
 const createMulti = () => {
@@ -155,7 +155,7 @@ const adBreak = (tmiClient) =>{
         messBase = "A FUN MAGES é uma equipe de streamers com o objetivo de trazer conteúdos variados e de qualidade para a Twitch. Nosso time é composto por vários canais, falando sobre tudo um pouco: desde arte, quadrinhos e retrogames até os jogos mais atuais e tendências de cultura pop. Conheça um dos nossos parceiros a seguir:";
         
         var random = Math.floor(Math.random() * (channelList.length - 1 ));
-        
+
         while(channelList[random] == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
             messBase2 = "http://twitch.tv/" + channelList[random] + " " + adList[channelList[random]];
