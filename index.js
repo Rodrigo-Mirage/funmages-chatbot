@@ -60,10 +60,12 @@ async function start() {
         console.log(`${data.name} is offline!`);
     });
     const tmiClient = new tmi.Client({
+        debug:true,
         connection: {
             secure: true,
             reconnect: true
         },
+        joinInterval:2000,
         identity: {
             username: process.env.BOT_LOGIN,
             password: process.env.BOT_OAUTH
