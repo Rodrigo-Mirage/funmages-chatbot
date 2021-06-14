@@ -39,8 +39,8 @@ async function start() {
         await client.getStream(channel).then(data => {
             if (data) {
                 console.log(`${channel} is online!`);
-                if (onChannels.indexOf(channel) > 0) {
-                    onChannels.splice(onChannels.indexOf(channel), 1);
+                if (onChannels.indexOf(channel.toLowerCase()) > 0) {
+                    onChannels.splice(onChannels.indexOf(channel.toLowerCase()), 1);
                 }
                 onChannels.push(channel.toLowerCase());
             }
@@ -54,8 +54,8 @@ async function start() {
         onChannels.push(data.name.toLowerCase());
     });
     client.on('unlive', (data) => {
-        if (onChannels.indexOf(data.name) > 0) {
-            onChannels.splice(onChannels.indexOf(data.name), 1);
+        if (onChannels.indexOf(data.name.toLowerCase()) > 0) {
+            onChannels.splice(onChannels.indexOf(data.name.toLowerCase()), 1);
         }
         console.log(`${data.name} is offline!`);
     });
