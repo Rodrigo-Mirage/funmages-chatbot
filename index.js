@@ -95,11 +95,6 @@ const createMulti = () => {
         return base;
     } else {
         var base = "StinkyCheese No momento a Fun Mages não tem streamers online o suficiente para criar um multi CrreamAwk";
-        if (onChannels.length == 1) {
-            onChannels.forEach(channel => {
-                base += " MAAS " + channel + " está online agora em: https://www.twitch.tv/" + channel;
-            });
-        }
         return base;
         
     }
