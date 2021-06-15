@@ -172,10 +172,11 @@ const adTwitch = (tmiClient) =>{
         while(channelList[random].replace("#","") == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
-        if(channel == "dani_leone22"){
-            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-        }else{
+        
+        if(channel == "praiadeconcreto"){
             messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        }else{
+            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
         }
         
         
@@ -210,6 +211,13 @@ const adBreak = (tmiClient) =>{
         console.log("ad: " + channelList[random]);
 
         tmiClient.say(channel,messBase);
+        
+        if(channel != "praiadeconcreto"){
+            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+            setTimeout(()=>{
+                tmiClient.say(channel,messBase2);
+            },3000);
+        }
 
     });
 
