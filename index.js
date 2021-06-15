@@ -97,6 +97,13 @@ async function start() {
     tmiClient.on('message', (channel, tags, message, self) => {
         if (message == "!fm") { 
             try{
+                adTwitch(tmiClient);
+            }catch(e){
+                console.log(channel, message)
+            }
+        }
+        if (message == "!fmulti") { 
+            try{
                 tmiClient.say(channel, createMulti());
             }catch(e){
                 console.log(channel, message)
@@ -148,7 +155,9 @@ app.listen(port,server_host, () => {
 })
 
 
-const adBreak = (tmiClient) =>{
+
+
+const adTwitch = (tmiClient) =>{
     console.log("HORA DO AD");
     onChannels.forEach(channel => {
         
@@ -156,14 +165,19 @@ const adBreak = (tmiClient) =>{
         var messBase = "";
         var messBase2 = "";
 
-        messBase = "A FUN MAGES é uma equipe de streamers com o objetivo de trazer conteúdos variados e de qualidade para a Twitch. Nosso time é composto por vários canais, falando sobre tudo um pouco: desde arte, quadrinhos e retrogames até os jogos mais atuais e tendências de cultura pop. Conheça um dos nossos parceiros a seguir:";
+        messBase = "Quer assistir streamers dos mais variados temas, desde arte e quadrinhos até RPG, retrogames e lançamentos? Conheça a FUN MAGES, uma equipe brasileira de streamers que aliam variedade e qualidade! Conheça um dos nossos parceiros:";
         
         var random = Math.floor(Math.random() * (channelList.length - 1 ));
 
         while(channelList[random].replace("#","") == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
-        messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        if(channel == "dani_leone22"){
+            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        }else{
+            messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        }
+        
         
         console.log("ad: " + channelList[random]);
 
@@ -172,6 +186,30 @@ const adBreak = (tmiClient) =>{
         setTimeout(()=>{
             tmiClient.say(channel,messBase2);
         },3000);
+
+    });
+}
+
+const adBreak = (tmiClient) =>{
+    console.log("HORA DO AD");
+    onChannels.forEach(channel => {
+        
+        console.log("ad p/ " + channel);
+        var messBase = "";
+        var messBase2 = "";
+
+        messBase = "Conheça um dos nossos parceiros da Fun Mages(!fm) :";
+        
+        var random = Math.floor(Math.random() * (channelList.length - 1 ));
+
+        while(channelList[random].replace("#","") == channel){
+            random = Math.floor(Math.random() * (channelList.length - 1 ));
+        }
+        messBase += "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        
+        console.log("ad: " + channelList[random]);
+
+        tmiClient.say(channel,messBase);
 
     });
 
