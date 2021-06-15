@@ -172,8 +172,8 @@ const adTwitch = (tmiClient) =>{
         while(channelList[random].replace("#","") == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
-        
-        if(channel == "praiadeconcreto"){
+
+        if(channel == "praiadeconcreto" || channel == "gmstation"){
             messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
         }else{
             messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
@@ -212,7 +212,7 @@ const adBreak = (tmiClient) =>{
 
         tmiClient.say(channel,messBase);
         
-        if(channel != "praiadeconcreto"){
+        if(channel != "praiadeconcreto" && channel != "gmstation"){
             messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
             setTimeout(()=>{
                 tmiClient.say(channel,messBase2);
