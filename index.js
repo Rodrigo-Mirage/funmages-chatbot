@@ -17,7 +17,7 @@ var channelList = [
     "chrisbunny99",
     "davebey",
     "gmstation",
-    "anderFanta",
+    "anderfanta",
     "jeffreyhaiduk",
     "hortaracing",
     "pha_el",
@@ -36,7 +36,7 @@ var adList = {
     "chrisbunny99": "Artes e retrogames",
     "davebey": "Estratégia, RPGs táticos e pôquer",
     "gmstation": "Retrogames, RPG, storytelling e cosplay",
-    "anderFanta": "Jogos de ação, aventura e RPG (FANTAsia!)",
+    "anderfanta": "Jogos de ação, aventura e RPG (FANTAsia!)",
     "jeffreyhaiduk": "Artes, bate-papo e RPGs",
     "hortaracing": "Simulador de corridas e retrogames",
     "pha_el": "Multiplayers online e jogos de ação",
@@ -163,7 +163,7 @@ const adBreak = (tmiClient) =>{
         while(channelList[random].replace("#","") == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
-        messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
         
         console.log("ad: " + channelList[random]);
 
