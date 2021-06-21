@@ -109,6 +109,14 @@ async function start() {
                 console.log(channel, message)
             }
         }
+        if (message == "!fmdiscord") { 
+            try{
+                tmiClient.say(channel, createDiscord());
+            }catch(e){
+                console.log(channel, message)
+            }
+        }
+        
     });
     console.log("Bot online");
 
@@ -154,7 +162,15 @@ app.listen(port,server_host, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
+var discord = "https://discord.gg/bBZM5h9wE6"
 
+const createDiscord = () => {
+    
+    var base = " 1) Acesse: " + discord + " 2) Vá até a COMMON AREA e entre em #CHECKIN 3) Reaja ao emote do canal. Pronto! agora já tem acesso à area do streamer, lembrando que você pode reagir com mais de um emote, e ganhará acesso a todas as areas que desejar.";
+    return base;
+        
+    
+}
 
 
 const adTwitch = (tmiClient) =>{
