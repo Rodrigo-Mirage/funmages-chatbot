@@ -114,7 +114,7 @@ async function start() {
 
     setTimeout(()=>{
         adBreak(tmiClient);
-    },300000);
+    },360000);
 
 }
 
