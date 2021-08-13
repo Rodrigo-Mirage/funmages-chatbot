@@ -103,7 +103,7 @@ async function start() {
     tmiClient.on('message', (channel, tags, message, self) => {
         if (message == "!fm") { 
             try{
-                adTwitch(tmiClient);
+                adTwitch(channel,tmiClient);
             }catch(e){
                 console.log(channel, message)
             }
@@ -213,35 +213,33 @@ const adTwitch = (tmiClient) =>{
     });
 }
 
-const adBreak = (tmiClient) =>{
+const adBreak = (channel,tmiClient) =>{
     console.log("HORA DO AD");
-    onChannels.forEach(channel => {
         
-        console.log("ad p/ " + channel);
-        var messBase = "";
-        var messBase2 = "";
+    console.log("ad p/ " + channel);
+    var messBase = "";
+    var messBase2 = "";
 
-        messBase = "Conheça um dos nossos parceiros da Fun Mages(!fm) :";
-        
-        var random = Math.floor(Math.random() * (channelList.length - 1 ));
+    messBase = "Conheça um dos nossos parceiros da Fun Mages(!fm) :";
+    
+    var random = Math.floor(Math.random() * (channelList.length - 1 ));
 
-        while(channelList[random].replace("#","") == channel){
-            random = Math.floor(Math.random() * (channelList.length - 1 ));
-        }
-        messBase += "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-        
-        console.log("ad: " + channelList[random]);
+    while(channelList[random].replace("#","") == channel){
+        random = Math.floor(Math.random() * (channelList.length - 1 ));
+    }
+    messBase += "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+    
+    console.log("ad: " + channelList[random]);
 
-        tmiClient.say(channel,messBase);
-        
-        if(channel != "praiadeconcreto" && channel != "gmstation"){
-            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-            setTimeout(()=>{
-                tmiClient.say(channel,messBase2);
-            },3000);
-        }
+    tmiClient.say(channel,messBase);
+    
+    if(channel != "praiadeconcreto" && channel != "gmstation"){
+        messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        setTimeout(()=>{
+            tmiClient.say(channel,messBase2);
+        },3000);
+    }
 
-    });
 
     setTimeout(()=>{
         adBreak(tmiClient);
