@@ -22,11 +22,14 @@ var channelList = [
     "hortaracing",
     "pha_el",
     "juneamamiya",
-    "felipeconrad"
+    "felipeconrad",
+    "gobli_the_goblin",
+    "seshimoon",
+    "artemyss"
 ];
 
 var adList = {
-    "mirageiw": "Multiplayers online, speedrun, competitivos, e diversos",
+    "mirageiw": "Multiplayers online, randomizers, competitivos, e diversos",
     "verinha_hime": "Jogos casuais e clássicos de simulação",
     "praiadeconcreto": "Artes, cosplay e jogos diversos",
     "zorak_x": "Retrogames, indie e jogos de ação",
@@ -41,7 +44,10 @@ var adList = {
     "hortaracing": "Simulador de corridas e retrogames",
     "pha_el": "Multiplayers online e jogos de ação",
     "juneamamiya": "Jogos de ação, lego e mitologia",
-    "felipeconrad": "Quadrinhos, cinema e jogos diversos"
+    "felipeconrad": "Quadrinhos, cinema e jogos diversos",
+    "gobli_the_goblin":"Jogos de aventura",
+    "seshimoon":"Jogos casuais e CIENCIA",
+    "artemyss":"Cosplay, e jogos casuais"
 }
 
 
@@ -162,7 +168,7 @@ app.listen(port,server_host, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
-var discord = "https://discord.gg/bBZM5h9wE6"
+var discord = process.env.DISCORD;
 
 const createDiscord = () => {
     
