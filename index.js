@@ -23,7 +23,7 @@ var channelList = [
     "pha_el",
     "juneamamiya",
     "felipeconrad",
-    "gobli_the_goblin",
+    "goblin_the_goblin",
     "seshimoon",
     "artemyss"
 ];
@@ -45,7 +45,7 @@ var adList = {
     "pha_el": "Multiplayers online e jogos de ação",
     "juneamamiya": "Jogos de ação, lego e mitologia",
     "felipeconrad": "Quadrinhos, cinema e jogos diversos",
-    "gobli_the_goblin":"Jogos de aventura",
+    "goblin_the_goblin":"Jogos de aventura",
     "seshimoon":"Jogos casuais e CIENCIA",
     "artemyss":"Cosplay, e jogos casuais"
 }
