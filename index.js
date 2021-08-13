@@ -179,7 +179,39 @@ const createDiscord = () => {
 }
 
 
-const adTwitch = (tmiClient) =>{
+const adTwitch = (channel,tmiClient) =>{
+    console.log("HORA DO AD");
+        
+    console.log("!fm p/ " + channel);
+    var messBase = "";
+    var messBase2 = "";
+
+    messBase = "Quer assistir streamers dos mais variados temas, desde arte e quadrinhos até RPG, retrogames e lançamentos? Conheça a FUN MAGES, uma equipe brasileira de streamers que aliam variedade e qualidade! Conheça um dos nossos parceiros:";
+    
+    var random = Math.floor(Math.random() * (channelList.length - 1 ));
+
+    while(channelList[random].replace("#","") == channel){
+        random = Math.floor(Math.random() * (channelList.length - 1 ));
+    }
+
+    if(channel == "praiadeconcreto" || channel == "gmstation"){
+        messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+    }else{
+        messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+    }
+    
+    
+    console.log("ad: " + channelList[random]);
+
+    tmiClient.say(channel,messBase);
+    
+    setTimeout(()=>{
+        tmiClient.say(channel,messBase2);
+    },3000);
+
+}
+
+const adBreak = (tmiClient) =>{
     console.log("HORA DO AD");
     onChannels.forEach(channel => {
         
@@ -187,59 +219,27 @@ const adTwitch = (tmiClient) =>{
         var messBase = "";
         var messBase2 = "";
 
-        messBase = "Quer assistir streamers dos mais variados temas, desde arte e quadrinhos até RPG, retrogames e lançamentos? Conheça a FUN MAGES, uma equipe brasileira de streamers que aliam variedade e qualidade! Conheça um dos nossos parceiros:";
+        messBase = "Conheça um dos nossos parceiros da Fun Mages(!fm) :";
         
         var random = Math.floor(Math.random() * (channelList.length - 1 ));
 
         while(channelList[random].replace("#","") == channel){
             random = Math.floor(Math.random() * (channelList.length - 1 ));
         }
-
-        if(channel == "praiadeconcreto" || channel == "gmstation"){
-            messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-        }else{
-            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-        }
-        
+        messBase += "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
         
         console.log("ad: " + channelList[random]);
 
         tmiClient.say(channel,messBase);
         
-        setTimeout(()=>{
-            tmiClient.say(channel,messBase2);
-        },3000);
+        if(channel != "praiadeconcreto" && channel != "gmstation"){
+            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+            setTimeout(()=>{
+                tmiClient.say(channel,messBase2);
+            },3000);
+        }
 
     });
-}
-
-const adBreak = (channel,tmiClient) =>{
-    console.log("HORA DO AD");
-        
-    console.log("ad p/ " + channel);
-    var messBase = "";
-    var messBase2 = "";
-
-    messBase = "Conheça um dos nossos parceiros da Fun Mages(!fm) :";
-    
-    var random = Math.floor(Math.random() * (channelList.length - 1 ));
-
-    while(channelList[random].replace("#","") == channel){
-        random = Math.floor(Math.random() * (channelList.length - 1 ));
-    }
-    messBase += "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-    
-    console.log("ad: " + channelList[random]);
-
-    tmiClient.say(channel,messBase);
-    
-    if(channel != "praiadeconcreto" && channel != "gmstation"){
-        messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-        setTimeout(()=>{
-            tmiClient.say(channel,messBase2);
-        },3000);
-    }
-
 
     setTimeout(()=>{
         adBreak(tmiClient);
