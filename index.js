@@ -9,12 +9,10 @@ var onChannels = [];
 var channelList = [    
     "mirageiw",
     "verinha_hime",
-    "praiadeconcreto",
     "zorak_x",
     "canal_rzero",
     "brunoantonucci",
     "dani_leone22",
-    "chrisbunny99",
     "davebey",
     "gmstation",
     "anderfanta",
@@ -23,29 +21,25 @@ var channelList = [
     "pha_el",
     "juneamamiya",
     "felipeconrad",
-    "goblin_the_goblin",
     "seshimoon",
     "artemyss"
 ];
 
 var adList = {
     "mirageiw": "Multiplayers online, randomizers, competitivos, e diversos",
-    "verinha_hime": "Jogos casuais e clássicos de simulação",
-    "praiadeconcreto": "Artes, cosplay e jogos diversos",
+    //"verinha_hime": "Jogos casuais e clássicos de simulação",
     "zorak_x": "Retrogames, indie e jogos de ação",
     "canal_rzero": "Jogos de ação, RPGs táticos e diversos",
     "brunoantonucci": "Fotografia e jogos de ação",
-    "dani_leone22": "Multiplayers online e RPGs",
-    "chrisbunny99": "Artes e retrogames",
-    "davebey": "Estratégia, RPGs táticos e pôquer",
-    "gmstation": "Retrogames, RPG, storytelling e cosplay",
-    "anderfanta": "Jogos de ação, aventura e RPG (FANTAsia!)",
+    //"dani_leone22": "Multiplayers online e RPGs",
+    //"davebey": "Estratégia, RPGs táticos e pôquer",
+    //"gmstation": "Retrogames, RPG, storytelling e cosplay",
+    //"anderfanta": "Jogos de ação, aventura e RPG (FANTAsia!)",
     "jeffreyhaiduk": "Artes, bate-papo e RPGs",
     "hortaracing": "Simulador de corridas e retrogames",
     "pha_el": "Multiplayers online e jogos de ação",
-    "juneamamiya": "Jogos de ação, lego e mitologia",
-    "felipeconrad": "Quadrinhos, cinema e jogos diversos",
-    "goblin_the_goblin":"Jogos de aventura",
+    //"juneamamiya": "Jogos de ação, lego e mitologia",
+    //"felipeconrad": "Quadrinhos, cinema e jogos diversos",
     "seshimoon":"Jogos casuais e CIENCIA",
     "artemyss":"Cosplay, e jogos casuais"
 }
@@ -184,31 +178,11 @@ const adTwitch = (channel,tmiClient) =>{
         
     console.log("!fm p/ " + channel);
     var messBase = "";
-    var messBase2 = "";
 
-    messBase = "Quer assistir streamers dos mais variados temas, desde arte e quadrinhos até RPG, retrogames e lançamentos? Conheça a FUN MAGES, uma equipe brasileira de streamers que aliam variedade e qualidade! Conheça um dos nossos parceiros:";
-    
-    var random = Math.floor(Math.random() * (channelList.length - 1 ));
-
-    while(channelList[random].replace("#","") == channel){
-        random = Math.floor(Math.random() * (channelList.length - 1 ));
-    }
-
-    if(channel == "praiadeconcreto" || channel == "gmstation"){
-        messBase2 = "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-    }else{
-        messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-    }
-    
-    
-    console.log("ad: " + channelList[random]);
+    messBase = "Este streamer faz parte da FUN MAGES. Somos um time de streamers, com diversos conteúdos recheados de variedade e qualidade! Siga todos os nossos magos e não perca nada da magia da diversão";
 
     tmiClient.say(channel,messBase);
     
-    setTimeout(()=>{
-        tmiClient.say(channel,messBase2);
-    },3000);
-
 }
 
 const adBreak = (tmiClient) =>{
@@ -217,27 +191,26 @@ const adBreak = (tmiClient) =>{
         
         console.log("ad p/ " + channel);
         var messBase = "";
-        var messBase2 = "";
 
-        messBase = "Conheça um dos nossos parceiros da Fun Mages(!fm) :";
-        
-        var random = Math.floor(Math.random() * (channelList.length - 1 ));
+        //messBase = "Conheça este parceiro da Fun Mages(!fm) :";
+        //
+        //var random = Math.floor(Math.random() * (channelList.length - 1 ));
+        //
+        //while(channelList[random].replace("#","") == channel){
+        //    random = Math.floor(Math.random() * (channelList.length - 1 ));
+        //}
+        //tmiClient.say(channel,messBase);
+        //
+        //messBase = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
 
-        while(channelList[random].replace("#","") == channel){
-            random = Math.floor(Math.random() * (channelList.length - 1 ));
-        }
-        messBase += "http://twitch.tv/" + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
+        messBase = "";
+
+        setTimeout(()=>{
+            tmiClient.say(channel,messBase);
+        },3000);
         
         console.log("ad: " + channelList[random]);
-
-        tmiClient.say(channel,messBase);
         
-        if(channel != "praiadeconcreto" && channel != "gmstation"){
-            messBase2 = "!sh " + (channelList[random].replace("#","")) + " => " + adList[(channelList[random].replace("#",""))];
-            setTimeout(()=>{
-                tmiClient.say(channel,messBase2);
-            },3000);
-        }
 
     });
 
