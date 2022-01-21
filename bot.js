@@ -155,6 +155,7 @@ class FunmagesBot{
         console.log("Bot online");
 
         this.tmiInstance = tmiClient;
+        this.statusBot = true;
     
         setTimeout(()=>{
             this.adBreak(tmiClient);
@@ -175,6 +176,7 @@ class FunmagesBot{
                 this.clientInstance.removeChannel(channel);
             }
         });
+        this.statusBot = false;
     }
     
     createMulti(){
@@ -210,34 +212,41 @@ class FunmagesBot{
     }
     
     adBreak (tmiClient) {
-        console.log("HORA DO AD");
-        this.onChannels.forEach(channel => {
-            if(channel != ""){
-                var messBase = "";
-            
-                var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
         
-                while(this.channelList[random].replace("#","") == channel || !adList[this.channelList[random].replace("#","")]){
-                    
-                console.log(channel + " ad: " + this.channelList[random]);
-                    random = Math.floor(Math.random() * (this.channelList.length - 1 ));
-                }
-                console.log("ad p/ " + channel);
-                console.log("ad: " + this.channelList[random].replace("#",""));
-            
-                messBase = "!sh " + (this.channelList[random].replace("#","")) + " => Esse(a) streamer participará da live especial da Fun Mages dia 29 de janeiro, junto com o host do canal. não perca! ";
-                setTimeout(()=>{
-                    tmiClient.say(channel,messBase);
-                },3000);
+        if(this.statusBot){
+            console.log("HORA DO AD");
+            this.onChannels.forEach(channel => {
+                if(channel != ""){
+                    var messBase = "";
                 
-            }else{
-                console.log("nenhum mage on")
-            }
-        });
-    
-        setTimeout(()=>{
-            this.adBreak(tmiClient);
-        },1200000)
+                    var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+            
+                    while(this.channelList[random].replace("#","") == channel || !adList[this.channelList[random].replace("#","")]){
+                        
+                    console.log(channel + " ad: " + this.channelList[random]);
+                        random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+                    }
+                    console.log("ad p/ " + channel);
+                    console.log("ad: " + this.channelList[random].replace("#",""));
+                
+                    messBase = "!sh " + (this.channelList[random].replace("#","")) + " => Esse(a) streamer participará da live especial da Fun Mages dia 29 de janeiro, junto com o host do canal. não perca! ";
+                    setTimeout(()=>{
+                        tmiClient.say(channel,messBase);
+                    },3000);
+                    
+                }else{
+                    console.log("nenhum mage on")
+                }
+            });
+        
+            setTimeout(()=>{
+                this.adBreak(tmiClient);
+            },1200000)
+        }
+    }
+
+    getBotStatus(){
+        return this.statusBot;
     }
     
     getChannelList(){
