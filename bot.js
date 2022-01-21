@@ -122,7 +122,7 @@ class FunmagesBot{
                 username: process.env.BOT_LOGIN,
                 password: process.env.BOT_OAUTH
             },
-            channels: this.channelList
+            channels: cloneList
         });
         tmiClient.connect().catch(()=>{
             console.log("erro de coneçao");
