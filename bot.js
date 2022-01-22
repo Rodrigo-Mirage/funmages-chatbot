@@ -221,7 +221,7 @@ class FunmagesBot{
                 
                     var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
             
-                    while(this.channelList[random].replace("#","") == channel || !adList[this.channelList[random].replace("#","")]){
+                    while(this.channelList[random].replace("#","") == channel || !this.adList[this.channelList[random].replace("#","")]){
                         
                     console.log(channel + " ad: " + this.channelList[random]);
                         random = Math.floor(Math.random() * (this.channelList.length - 1 ));
