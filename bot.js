@@ -94,7 +94,7 @@ class FunmagesBot{
         
         this.channelList.forEach(channel => {
             if(channel){
-                this.clientInstance.includesChannel(channel);
+                this.clientInstance.addChannel(channel);
             }
         });
 
