@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { brotliCompress } = require('zlib');
 require('dotenv').config();
 
 const app = express();
@@ -7,10 +8,16 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const FunmagesBot = require('./bot');
 
+const mongoose = require ('mongoose');
+const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.DBPASS}@${process.env.DBURL}`;
 
-const bot = new FunmagesBot();
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connection.on('connected',()=>{
+    console.log('DB conectado')
+});
 
-var statusBot = false;
+const bot = new FunmagesBot(mongoose);
+
 
 app.use(express.static(path.join(__dirname,'public')));
 app.set('views', path.join(__dirname,'public'));
@@ -26,17 +33,20 @@ app.use('/', (req, res) => {
 })
 
 io.on('connection',socket =>{
-    socket.emit('getInfo', {statusBot,channelList:bot.getChannelList()});
+    sendInfo(socket)
     socket.on('switchBot', () =>{
-        statusBot = !statusBot;
-        if(statusBot){
+        if(!bot.statusBot){
             bot.start();
         }else{
             bot.stop();
         }
-        socket.emit('getInfo', {statusBot,channelList:bot.getChannelList()});
+        sendInfo(socket)
     })
 })
+
+function sendInfo(socket){
+    socket.emit('getInfo', {statusBot:bot.statusBot,channelList:bot.getChannelList(),adList: bot.adList});
+}
 
 console.log(port)
 server.listen(port);

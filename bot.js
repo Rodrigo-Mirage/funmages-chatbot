@@ -8,83 +8,98 @@ const path = require('path');
 class FunmagesBot{
 
     statusBot = false;
-    
+    statusMvp = false;
     onChannels = [];
-        
     adList = {};
-        
     discord = process.env.DISCORD;
-    
     channelList = [];
-
     tmiInstance;
     clientInstance;
+    mongoose;
+    Schema;
+    StatusSchema;
+    AccountSchema;
+    Status;
+    Account;
 
-    constructor(){
 
-        this.statusBot = false;
-    
-        this.onChannels = [];
-            
-        this.adList = {
-                "mirageiw": "Multiplayers online, randomizers, competitivos, e diversos",
-                //"verinha_hime": "Jogos casuais e clássicos de simulação",
-                "zorak_x": "Retrogames, indie e jogos de ação",
-                "canal_rzero": "Jogos de ação, RPGs táticos e diversos",
-                "brunoantonucci": "Fotografia e jogos de ação",
-                //"dani_leone22": "Multiplayers online e RPGs",
-                //"davebey": "Estratégia, RPGs táticos e pôquer",
-                //"gmstation": "Retrogames, RPG, storytelling e cosplay",
-                //"anderfanta": "Jogos de ação, aventura e RPG (FANTAsia!)",
-                "jeffreyhaiduk": "Artes, bate-papo e RPGs",
-                "hortaracing": "Simulador de corridas e retrogames",
-                "pha_el": "Multiplayers online e jogos de ação",
-                //"juneamamiya": "Jogos de ação, lego e mitologia",
-                //"felipeconrad": "Quadrinhos, cinema e jogos diversos",
-                "seshimoon":"Jogos casuais e CIENCIA",
-                "artemyss":"Cosplay, e jogos casuais"
-        };
-            
-        this.discord = process.env.DISCORD;
+
+    constructor(mongoose){
+        this.mongoose = mongoose;
+
+        this.Schema = this.mongoose.Schema;
+        this.StatusSchema = new this.Schema({
+                Name:String,
+                Value:String
+            });
+        this.AccountSchema = new this.Schema({
+                Name:String,
+                twitch:String,
+                streamer:Boolean,
+                desc:String
+            })
         
-        this.channelList = [    
-            "mirageiw",
-            "verinha_hime",
-            "zorak_x",
-            "canal_rzero",
-            "brunoantonucci",
-            "dani_leone22",
-            "anderfanta",
-            "jeffreyhaiduk",
-            "hortaracing",
-            "pha_el",
-            "juneamamiya",
-            "felipeconrad",
-            "seshimoon",
-            "artemyss"
-        ];
+        this.Status = this.mongoose.model("Status", this.StatusSchema);
+        this.Account = this.mongoose.model("Account", this.AccountSchema);
+        
+        this.Account.find({}).then((accs)=>{ 
+            this.channelList = [];
+            this.adList = {};
+            accs.forEach((acc) =>{
+                this.channelList.push(acc.twitch);
+                if(acc.streamer){
+                    this.adList[acc.twitch] = acc.desc;
+                }
+            });
 
-        const options = {
-            channels: [],
-            client_id: process.env.BOT_CLIENT,
-            client_secret: process.env.BOT_SECRET,
-            interval: 15
-        };
+            this.Status.find({}).then((stts)=>{
+                stts.forEach((acc) =>{
+                    switch(acc.Name){
+                        case "online":
+                            this.statusBot = acc.Value == "true";
+                        break;
+                        case "mvp":
+                            this.statusMvp = acc.Value == "true";
+                        break;
+                    }
 
-        this.clientInstance = new Client(options);
-        this.clientInstance.on('live', (data) => {
-            if (this.onChannels.indexOf(data.name.toLowerCase()) > -1) {
-                this.onChannels.splice(this.onChannels.indexOf(data.name.toLowerCase()), 1);
-            }
-            console.log(`${data.name} is online!`);
-            this.onChannels.push(data.name.toLowerCase());
-        });
-        this.clientInstance.on('unlive', (data) => {
-            if (this.onChannels.indexOf(data.name.toLowerCase()) > -1) {
-                this.onChannels.splice(this.onChannels.indexOf(data.name.toLowerCase()), 1);
-            }
-            console.log(`${data.name} is offline!`);
-        });
+                });
+        
+                this.onChannels = [];
+                    
+                this.discord = process.env.DISCORD;
+                
+                const options = {
+                    channels: [],
+                    client_id: process.env.BOT_CLIENT,
+                    client_secret: process.env.BOT_SECRET,
+                    interval: 15
+                };
+
+                this.clientInstance = new Client(options);
+                this.clientInstance.on('live', (data) => {
+                    if (this.onChannels.indexOf(data.name.toLowerCase()) > -1) {
+                        this.onChannels.splice(this.onChannels.indexOf(data.name.toLowerCase()), 1);
+                    }
+                    console.log(`${data.name} is online!`);
+                    this.onChannels.push(data.name.toLowerCase());
+                });
+                this.clientInstance.on('unlive', (data) => {
+                    if (this.onChannels.indexOf(data.name.toLowerCase()) > -1) {
+                        this.onChannels.splice(this.onChannels.indexOf(data.name.toLowerCase()), 1);
+                    }
+                    console.log(`${data.name} is offline!`);
+                });
+
+                if(this.statusBot){
+                    this.start();
+                }
+            }).catch((error)=>{
+                console.log(error)
+            })
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
    
     
@@ -252,6 +267,33 @@ class FunmagesBot{
     getChannelList(){
         return this.channelList;
     }
+    
+    getOnChannels(){
+        return this.onChannels;
+    }
+
+    addChannel(channel){
+        channel = channel.toLowerCase();
+        if(!this.channelList.includes(channel)){
+            this.channelList.append(channel);
+            this.clientInstance.addChannel(channel);
+            this.stop();
+            this.start();
+        }
+    }
+
+    addChannelAd(channel,description){
+        this.adList[channel] = description;
+    }
+
+    removeChannel(){
+        
+    }
+
+    removeChannelAd(){
+
+    }
+
 }
 
 module.exports = FunmagesBot;
