@@ -67,7 +67,7 @@ class FunmagesBot{
                             this.mvpMessage = acc.Value;
                         break;
                         case "adMessage":
-                            this.adMessage = acc.Value;
+                            this.adMessage = acc.Value
                         break;
                     }
 
@@ -122,8 +122,8 @@ class FunmagesBot{
         });
 
         this.channelList.forEach(async channel => {
-            cloneList.push(channel.toLowerCase());
-            await this.clientInstance.getStream(channel.toLowerCase()).then(data => {
+            cloneList.push(channel);
+            await this.clientInstance.getStream(channel).then(data => {
                 if (data) {
                     console.log(`${channel} is online!`);
                     if (this.onChannels.indexOf(channel.toLowerCase()) > -1) {
@@ -182,7 +182,7 @@ class FunmagesBot{
     
         setTimeout(()=>{
             this.adBreak(tmiClient);
-        },6000);
+        },600000);
     
     }
 
