@@ -35,17 +35,60 @@ app.use('/', (req, res) => {
 io.on('connection',socket =>{
     sendInfo(socket)
     socket.on('switchBot', () =>{
-        if(!bot.statusBot){
-            bot.start();
-        }else{
-            bot.stop();
-        }
-        sendInfo(socket)
+        bot.BotSwitch().then(()=>{
+            sendInfo(socket);
+        });
+    })
+
+    socket.on('changeMvp', (channel) =>{
+        bot.changeMvp(channel).then(()=>{
+            sendInfo(socket)
+        })
+    })
+    
+    socket.on('editMvpMessage', (message) =>{
+        bot.editMvpMessage(message).then(()=>{
+            sendInfo(socket)
+        })
+    })
+    
+    socket.on('editAdMessage', (message) =>{
+        bot.editadMessage(message).then(()=>{
+            sendInfo(socket)
+        })
+    })
+
+    socket.on('getChannelInfo', (channel) =>{
+        bot.getChannel(channel).then((data)=>{
+            socket.emit("editInfo",data)
+        })
+    })
+
+    
+    socket.on('saveChannel', (sentdata) =>{
+        bot.editChannel(sentdata.channel,sentdata.editData).then((data)=>{
+            sendInfo(socket)
+        })
+    })
+
+    socket.on('removeChannel', (channel) =>{
+        bot.removeChannel(channel).then((data)=>{
+            sendInfo(socket)
+        })
     })
 })
 
 function sendInfo(socket){
-    socket.emit('getInfo', {statusBot:bot.statusBot,channelList:bot.getChannelList(),adList: bot.adList});
+    socket.emit('getInfo', 
+    {
+        statusBot:bot.statusBot,
+        channelList:bot.getChannelList(),
+        adList: bot.adList,
+        mvp:bot.Mvp,
+        mvpMessage:bot.mvpMessage,
+        adMessage:bot.adMessage
+        
+    });
 }
 
 console.log(port)

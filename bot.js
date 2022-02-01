@@ -8,7 +8,9 @@ const path = require('path');
 class FunmagesBot{
 
     statusBot = false;
-    statusMvp = false;
+    Mvp = "";
+    mvpMessage = "Esse(a) streamer participará da live especial da Fun Mages dia 29 de janeiro, junto com o host do canal. não perca!";
+    adMessage = "Esse(a) streamer participará da live especial da Fun Mages dia 29 de janeiro, junto com o host do canal. não perca! ";
     onChannels = [];
     adList = {};
     discord = process.env.DISCORD;
@@ -59,7 +61,13 @@ class FunmagesBot{
                             this.statusBot = acc.Value == "true";
                         break;
                         case "mvp":
-                            this.statusMvp = acc.Value == "true";
+                            this.Mvp = acc.Value;
+                        break;
+                        case "mvpMessage":
+                            this.mvpMessage = acc.Value;
+                        break;
+                        case "adMessage":
+                            this.adMessage = acc.Value;
                         break;
                     }
 
@@ -114,8 +122,8 @@ class FunmagesBot{
         });
 
         this.channelList.forEach(async channel => {
-            cloneList.push(channel);
-            await this.clientInstance.getStream(channel).then(data => {
+            cloneList.push(channel.toLowerCase());
+            await this.clientInstance.getStream(channel.toLowerCase()).then(data => {
                 if (data) {
                     console.log(`${channel} is online!`);
                     if (this.onChannels.indexOf(channel.toLowerCase()) > -1) {
@@ -174,7 +182,7 @@ class FunmagesBot{
     
         setTimeout(()=>{
             this.adBreak(tmiClient);
-        },600000);
+        },6000);
     
     }
 
@@ -221,9 +229,20 @@ class FunmagesBot{
         var messBase = "";
     
         messBase = "Este streamer faz parte da FUN MAGES. Somos um time de streamers, com diversos conteúdos recheados de variedade e qualidade! Siga todos os nossos magos e não perca nada da magia da diversão";
-    
-        tmiClient.say(channel,messBase);
+        setTimeout(()=>{
+            tmiClient.say(channel,messBase);
+        },3000);
         
+        var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+            
+        while(this.channelList[random].replace("#","") == channel || this.channelList[random].replace("#","") == this.Mvp || !this.adList[this.channelList[random].replace("#","")]){
+            random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+        }
+    
+        messBase = "!sh " + (this.channelList[random].replace("#","")) + " => " + this.adMessage;
+        setTimeout(()=>{
+            tmiClient.say(channel,messBase);
+        },3000);
     }
     
     adBreak (tmiClient) {
@@ -234,17 +253,19 @@ class FunmagesBot{
                 if(channel != ""){
                     var messBase = "";
                 
-                    var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
-            
-                    while(this.channelList[random].replace("#","") == channel || !this.adList[this.channelList[random].replace("#","")]){
-                        
-                    console.log(channel + " ad: " + this.channelList[random]);
-                        random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+                    if(this.Mvp != ""){
+                        messBase = "!sh " + this.Mvp + " => " + this.mvpMessage;
+                    }else{
+                        var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+                        while(this.channelList[random].replace("#","") == channel || this.channelList[random].replace("#","") == this.Mvp || !this.adList[this.channelList[random].replace("#","")]){
+                            console.log(channel + " ad: " + this.channelList[random]);
+                            random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+                        }
+                        console.log("ad p/ " + channel);
+                        console.log("ad: " + this.channelList[random].replace("#",""));
+                        messBase = "!sh " + (this.channelList[random].replace("#","")) + " => " + this.adMessage;
                     }
-                    console.log("ad p/ " + channel);
-                    console.log("ad: " + this.channelList[random].replace("#",""));
-                
-                    messBase = "!sh " + (this.channelList[random].replace("#","")) + " => Esse(a) streamer participará da live especial da Fun Mages dia 29 de janeiro, junto com o host do canal. não perca! ";
+
                     setTimeout(()=>{
                         tmiClient.say(channel,messBase);
                     },3000);
@@ -292,6 +313,159 @@ class FunmagesBot{
 
     removeChannelAd(){
 
+    }
+
+    BotSwitch(){
+        const promise = new Promise((resolve, reject) => {
+            if(this.statusBot){
+                const filter = { Name: 'online' };
+                const update = { Value: false };
+                this.Status.findOneAndUpdate(filter, update).then((data)=>{
+                    this.statusBot = false;
+                    this.stop();
+                    resolve(data);
+                });
+            }else{
+                const filter = { Name: 'online' };
+                const update = { Value: true };
+                this.Status.findOneAndUpdate(filter, update).then((data)=>{
+                    this.statusBot = true;
+                    this.start();
+                    resolve(data);
+                });
+                
+            }
+          });
+          return promise;
+    }
+
+    changeMvp(channel){
+        const promise = new Promise((resolve, reject) => {
+            const filter = { Name: 'mvp' };
+            const update = { Value: channel };
+            this.Status.findOneAndUpdate(filter, update).then((data)=>{
+                this.Mvp = channel;
+                resolve(data);
+            });
+          });
+          return promise;
+    }
+
+    editadMessage(message){
+        const promise = new Promise((resolve, reject) => {
+            const filter = { Name: 'adMessage' };
+            const update = { Value: message };
+            this.Status.findOneAndUpdate(filter, update).then((data)=>{
+                this.adMessage = message;
+                resolve(data);
+            });
+        });
+        return promise;
+    }
+
+    editMvpMessage(message){
+        const promise = new Promise((resolve, reject) => {
+            const filter = { Name: 'mvpMessage' };
+            const update = { Value: message };
+            this.Status.findOneAndUpdate(filter, update).then((data)=>{
+                this.mvpMessage = message;
+                resolve(data);
+            });
+        });
+        return promise;
+    }
+
+    getChannel(channel){
+        const promise = new Promise((resolve, reject) => {
+            const filter = { twitch: channel };
+            this.Account.findOne(filter).then((data)=>{
+                resolve(data);
+            });
+        });
+        return promise;
+    }
+
+    editChannel(channel,editData){
+        const promise = new Promise((resolve, reject) => {
+            if(channel == ""){
+                const insert = { 
+                    Name: editData.Name,
+                    twitch: editData.twitch,
+                    streamer: editData.streamer,
+                    desc: editData.desc
+                };
+                this.Account.create(insert).then((data)=>{
+                    if(!this.channelList.includes( editData.twitch)){
+                        this.channelList.push( editData.twitch);
+                        this.clientInstance.addChannel( editData.twitch);
+                        this.stop();
+                        this.start();
+                    }
+                    if(editData.streamer){
+                        if(!this.adList[editData.twitch]){
+                            this.adList[editData.twitch] = editData.desc;
+                        }
+                    }else{
+                        if(this.adList[editData.twitch]){
+                            delete this.adList[editData.twitch];
+                        }
+                    }
+                    resolve(data);
+                });
+            }else{
+                const filter = { twitch: channel };
+                const update = { 
+                    Name: editData.Name,
+                    twitch: editData.twitch,
+                    streamer: editData.streamer,
+                    desc: editData.desc
+                };
+                this.Account.findOneAndUpdate(filter, update).then((data)=>{
+                    if(editData.streamer){
+                        if(!this.channelList.includes(channel)){
+                            this.channelList.push(channel);
+                            this.clientInstance.addChannel(channel);
+                            this.stop();
+                            this.start();
+                        }
+                        if(this.adList[channel]){
+                            delete this.adList[channel];
+                            this.adList[editData.twitch] = editData.desc;
+                        }
+                    }else{
+                        if(this.channelList.includes(channel)){
+                            var index = this.channelList.indexOf(channel);   
+                            this.channelList.splice(index,1)
+                            this.channelList.push(editData.twitch);
+                        }
+                        if(this.adList[channel]){
+                            delete this.adList[channel];
+                        }
+                    }
+
+                    resolve(data);
+                });
+            }
+        });
+        return promise;
+    }
+
+    removeChannel(channel){
+        const promise = new Promise((resolve, reject) => {
+            const filter = { twitch: channel };
+            this.Account.deleteOne(filter).then((data)=>{
+                channel = channel.toLowerCase();
+                if(this.channelList.includes(channel)){
+                    var index = this.channelList.indexOf(channel);   
+                    this.channelList.splice(index,1)
+                }
+                if(this.adList[channel]){
+                    delete this.adList[channel];
+                }
+                resolve(data);
+            });
+        });
+        return promise;
     }
 
 }

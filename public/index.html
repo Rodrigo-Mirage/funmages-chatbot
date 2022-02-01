@@ -5,25 +5,115 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Fumages bot</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <div>
-        <h1>Status</h1>
-        <div id="statusBot"></div>
-        <button id="switch">Switch</button>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Status</h1>
+                <div id="statusBot"></div>
+                <button id="switch" class="btn btn-warning">Switch</button>
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-sm-6">
+                <h2>MVP</h2><h3 id="mvpName"></h3>
+                <textarea class="form-control"  id="mvpMessage"></textarea>
+                <button class="btn btn-primary" id="editMvp">Edit</button>
+                <button class='btn btn-danger' onclick='mvp("")'>Limpar MVP</button>
+            </div>
+            <div class="col-sm-6">
+                <h2>Mensagem de Propaganda </h2>
+                <h3>!FM</h3>
+                <textarea class="form-control"  id="adMessage"></textarea>
+                <button class="btn btn-primary" id="editAd">Edit</button>
+            </div>
+            
+        </div>
+        <div class="row">
+
+            <div class="col-sm-6">
+                <h2>Canais Conectados</h2>
+                <ul style="list-style-type: none;" id="channels"></ul>
+                <button class="btn btn-primary" id="addChannel">Novo</button>
+            </div>
+            <div class="col-sm-6">
+                <h2>Canais anunciaveis</h2>
+                <ul style="list-style-type: none;" id="adChannels"></ul>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <h2>Canais Conectados</h2>
-        <ul id="channels"></ul>
+
+    <div class="modal" tabindex="-1" role="dialog" id="editChannel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editTitle">Editar Canal</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                
+                <input class="form-control" type=hidden id="editOldName"/>
+
+                <div class="form-group">
+                    <label for="editName">Nome</label>
+                    <input class="form-control" type=text id="editName"/>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editTwitch">Twitch</label>
+                    <input class="form-control" type=text id="editTwitch"/>
+                </div>
+                <div class="form-group">
+                    <label for="editStreamer">Streamer</label>
+                    <input class="form-control" type=checkbox id="editStreamer"/>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editDesc">Descrição</label>
+                    <textarea class="form-control" id="editDesc"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" style="float: left;"  id="removeChannel">Remover</button>
+              <button type="button" class="btn btn-primary" id="saveChannel" data-dismiss="modal">Salvar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
     </div>
-    <div>
-        <h2>Canais anunciaveis</h2>
-        <ul id="adChannels"></ul>
+    
+    <div class="modal" tabindex="-1" role="dialog" id="remChannel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Remover Canal</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que quer remover :<b id="bRemChannel"> </b> ?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" style="float: left;" id="ConfremoveChannel">SIM</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NAO</button>
+            </div>
+          </div>
+        </div>
     </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js" integrity="sha512-MgkNs0gNdrnOM7k+0L+wgiRc5aLgl74sJQKbIWegVIMvVGPc1+gc1L2oK9Wf/D9pq58eqIJAxOonYPVE5UwUFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -31,11 +121,36 @@
 
     <script>
         var socket = io('https://funmages-chatbot.herokuapp.com');
+        //var socket = io('http://localhost:5000');
+        var mvpname = "";
         socket.on('getInfo' , function(data){
-                console.log('getInfo')
+            console.log('getInfo')
+            console.log(data)
+            mvpname = data.mvp;
+            $("#mvpName").html(data.mvp.toUpperCase());
             setStatus(data.statusBot)
             populateChannels(data.channelList)
             populateAdChannels(data.adList)
+            populateInputs(data.adMessage,data.mvpMessage);
+        });
+
+        socket.on('editInfo' , function(data){
+            console.log('editInfo')
+            console.log(data)
+
+            $("#editTitle").html('Editar Canal');
+            $("#editName").val(data.Name);
+            $("#editOldName").val(data.twitch);
+            $("#editTwitch").val(data.twitch);
+            if(data.streamer == true){
+                $("#editStreamer").attr("checked",'checked')
+            }else{
+                $("#editStreamer").removeAttr("checked")
+            }
+            $("#editStreamer").val(data.streamer);
+            $("#editDesc").val(data.desc);
+            
+            $('#editChannel').modal()
         });
 
         function setStatus(status){
@@ -49,27 +164,93 @@
         function populateChannels(channelList){
             $('#channels').html("");
             for (channel of channelList){
-                $('#channels').append(`<li>${channel}</li>`)
+                $('#channels').append(`<li><button class='btn btn-primary' onclick='edit("${channel}")'>Edit</button> ${channel.toUpperCase()} </li>`)
             }
         }
 
         function populateAdChannels(channelList){
             $('#adChannels').html("");
-            console.log(channelList)
 
             Object.keys(channelList).forEach(function (key) {
                 var val = channelList[key];
-                $('#adChannels').append(`<li>${key} : ${val} </li>`)
+                if(key == mvpname){
+                    $('#adChannels').append(`<li><button class='btn btn-success' onclick='mvp("${key}")'>MVP</button> - ${key} : ${val} </li>`);
+                }else{
+                    $('#adChannels').append(`<li><button class='btn btn-primary' onclick='mvp("${key}")'>MVP</button> - ${key} : ${val} </li>`);
+                }
+
             });
 
         }
+
+        function populateInputs(adMessage,mvpMessage){
+            $('#adMessage').val(adMessage);
+            $('#mvpMessage').val(mvpMessage);
+        }
+
+        function mvp(channel){
+            console.log(channel)
+            socket.emit('changeMvp',channel);
+        }
+
+        function edit(channel){
+            console.log(channel)
+            socket.emit('getChannelInfo',channel);
+        }
+
         $(document).ready(function(){
 
             $('#switch').on('click',function(e){
                 e.preventDefault();
                 socket.emit('switchBot');
             })
-
+            $('#removeChannel').on('click',function(e){
+                e.preventDefault();
+                $("#bRemChannel").html($("#editOldName").val());
+                $('#remChannel').modal()
+            })
+            $('#ConfremoveChannel').on('click',function(e){
+                socket.emit('removeChannel',$("#editOldName").val());
+                $('#remChannel').modal('hide')
+                $('#editChannel').modal('hide')
+            })            
+            $('#editAd').on('click',function(e){
+                e.preventDefault();
+                console.log($('#adMessage').val());
+                socket.emit('editAdMessage',$('#adMessage').val());
+            })
+            $('#editMvp').on('click',function(e){
+                e.preventDefault();
+                console.log($('#mvpMessage').val());
+                socket.emit('editMvpMessage',$('#mvpMessage').val());
+            })
+            $('#addChannel').on('click',function(e){
+                e.preventDefault();
+                
+                $("#editTitle").html('Adicional Canal');
+                $("#editName").val('');
+                $("#editOldName").val('');
+                $("#editTwitch").val('');
+                $("#editStreamer").removeAttr("checked")
+                $("#editStreamer").val('');
+                $("#editDesc").val('');
+                $('#editChannel').modal()
+            });
+            $("#saveChannel").on('click',function(e){
+                e.preventDefault();
+                
+                data = {
+                        Name:$("#editName").val(),
+                        twitch:$("#editTwitch").val(),
+                        streamer:$("#editStreamer").prop('checked'),
+                        desc:$("#editDesc").val()
+                    };
+                    console.log(data)
+                socket.emit('saveChannel',{
+                    channel:$("#editOldName").val(),
+                    editData:data
+                });
+            })
         })
     </script>
 </body>
