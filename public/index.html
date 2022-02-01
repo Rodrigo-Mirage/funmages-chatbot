@@ -30,7 +30,7 @@
 
 
     <script>
-        var socket = io('localhost:5000');
+        var socket = io('https://funmages-chatbot.herokuapp.com');
         socket.on('getInfo' , function(data){
                 console.log('getInfo')
             setStatus(data.statusBot)
