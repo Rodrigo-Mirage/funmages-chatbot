@@ -231,18 +231,19 @@ class FunmagesBot{
         messBase = "Este streamer faz parte da FUN MAGES. Somos um time de streamers, com diversos conteúdos recheados de variedade e qualidade! Siga todos os nossos magos e não perca nada da magia da diversão";
         setTimeout(()=>{
             tmiClient.say(channel,messBase);
+            var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+            
+            while(this.channelList[random].replace("#","") == channel || this.channelList[random].replace("#","") == this.Mvp || !this.adList[this.channelList[random].replace("#","")]){
+                random = Math.floor(Math.random() * (this.channelList.length - 1 ));
+            }
+        
+            messBase = "!sh " + (this.channelList[random].replace("#","")) + " => " + this.adMessage;
+            setTimeout(()=>{
+                tmiClient.say(channel,messBase);
+            },3000);
         },3000);
         
-        var random = Math.floor(Math.random() * (this.channelList.length - 1 ));
-            
-        while(this.channelList[random].replace("#","") == channel || this.channelList[random].replace("#","") == this.Mvp || !this.adList[this.channelList[random].replace("#","")]){
-            random = Math.floor(Math.random() * (this.channelList.length - 1 ));
-        }
-    
-        messBase = "!sh " + (this.channelList[random].replace("#","")) + " => " + this.adMessage;
-        setTimeout(()=>{
-            tmiClient.say(channel,messBase);
-        },3000);
+        
     }
     
     adBreak (tmiClient) {
